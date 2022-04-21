@@ -31,12 +31,12 @@ Route::middleware([
 ])->group(function () {
 
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        return Redirect()->route('list.index');
     })->name('dashboard');
 
     Route::resource( "/departments", \App\Http\Controllers\DepartmentController::class );
     Route::resource( "/items", \App\Http\Controllers\ItemController::class );
-
+    Route::resource( "/list", \App\Http\Controllers\ItemListController::class )->except('create', 'edit', 'show');
 
 });
 
