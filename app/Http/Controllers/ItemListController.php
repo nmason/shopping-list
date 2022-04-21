@@ -13,6 +13,8 @@ class ItemListController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * Gets all itemLists, sorted in memory by department_name, then grouping the items in the collection by deparment_name,
+     * Gets all items, sorted in memory by department_name, then grouping the items in the collection by deparment_name,
      *
      * @return \Illuminate\Http\Response
      */

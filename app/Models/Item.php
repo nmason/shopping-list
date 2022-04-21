@@ -2,34 +2,21 @@
 
 namespace App\Models;
 
+use App\Traits\HasScopedUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    use HasFactory;
+    use HasFactory, HasScopedUser;
 
     protected $guarded = ["id", "user_id"];
 
-    protected static function booting(){
-
-        self::creating( function($model){
-            $model->user_id = Auth()->user()
-                ? Auth()->user()->id
-                : $model->user_id;
-        }  );
-
-        static::addGlobalScope('user', function(Builder $builder){
-            if ( Auth()->user() )
-                $builder->where('items.user_id', '=', Auth()->user()->id );
-        });
-
-
-    }
 
     /**
-     * Get all of the models from the database.
+     * Modified from Model: Gets all the models for Items from the database
+     * Includes department_name from department join table.
      *
      * @param  array|mixed  $columns
      * @return \Illuminate\Database\Eloquent\Collection<int, static>
@@ -41,10 +28,11 @@ class Item extends Model
         );
     }
 
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
 
+    /**
+     * Department Belongs to relationship
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function department(){
         return $this->belongsTo(Department::class);
     }
