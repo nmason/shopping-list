@@ -3,7 +3,7 @@
         <Head title="New Department" />
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                New Department
+                {{item.name}}
             </h2>
         </template>
         <div class="py-12">
@@ -24,24 +24,22 @@
                                     v-model="form.name"
                                     type="text"
                                     class="mt-1 block w-full"
+                                    :class="{'bg-red-50': form.errors.name}"
                                     required
                                     autofocus
                                     autocomplete="name"
                                 />
 
                             </div>
-                        </form>
-                        <div class="mt-16">
-                            <h2 class="bold text-2xl border-b-2 border-gray-50 py-2">Items</h2>
-                            <div class="space-y-4 divide-y divide-y-gray-50">
-                                <div v-for="item in items" class="list-decimal px-8 py-4 flex justify-between items-center">
-                                    <Link class="block" :href="route( 'items.show', item)" >{{item.name}}</Link>
-                                    <span class="underline cursor-pointer text-xs" @click="destroy(item.id)">Delete</span>
-                                </div>
-
+                            <div class="mt-4">
+                                <JetLabel for="name" value="Department" />
+                                <span v-if="form.errors.department_id" class="text-red-500 text-xs">{{form.errors.department_id}}</span>
+                                <select id="location" v-model="form.department_id" :class="{'bg-red-50': form.errors.department_id}" name="location" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                    <option selected value="">Please Select</option>
+                                    <option v-for="department in departments" :value="department.id">{{department.name}}</option>
+                                </select>
                             </div>
-
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -56,17 +54,18 @@ import JetInput from '@/Jetstream/Input.vue';
 import JetLabel from '@/Jetstream/Label.vue';
 
 const props = defineProps({
-    department: Object,
-    items: Array
+    item: Object,
+    departments: Array
 });
 
 const form = useForm({
-    name: props.department.name,
+    name: props.item.name,
+    department_id: props.item.department_id
 });
 
 const submit = () => {
     if ( form.isDirty )
-        form.put(route('departments.update', props.department) );
+        form.put(route('items.update', props.item) );
 };
 </script>
 

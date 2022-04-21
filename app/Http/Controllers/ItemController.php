@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
-use Illuminate\Validation\Rule;
+use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
-class DepartmentController extends Controller
+class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +17,11 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::all();
+        $items = Item::all()->sortBy('department_name')->groupBy('department_name');
 
         return Request()->expectsJson()
-            ? Response()->json(compact('departments'))
-            : Inertia::render('Department/Index', compact('departments'));
+            ? Response()->json(compact('items'))
+            : Inertia::render('Item/Index', compact('items'));
     }
 
     /**
@@ -31,7 +31,10 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Department/Create');
+
+         $departments = Department::all()->sortBy('name');
+
+        return Inertia::render('Item/Create', compact('departments'));
     }
 
     /**
@@ -43,71 +46,68 @@ class DepartmentController extends Controller
     public function store(Request $request)
     {
         $input = $request->validate([
-           "name" => ["required", "min:5", "max:64", 'unique:departments']
+           "name" => ["required",  "max:128"],
+           "department_id" => ["required", "exists:departments,id"]
         ]);
 
-        Department::create( $input );
+        Item::create( $input );
 
-        return Redirect::route('departments.index');
+        return Redirect::route('items.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function show(Department $department)
+    public function show(Item $item)
     {
-
-        return $this->edit($department);
+        return $this->edit($item);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function edit(Department $department)
+    public function edit(Item $item)
     {
-        $items = $department->items;
-        return  Request()->expectsJson()
-            ? Response()->json( compact('department', 'items') )
-            : Inertia::render('Department/Edit', compact('department', 'items'));
+        $departments = Department::all()->sortBy('name');
 
-
+        return Inertia::render('Item/Edit', compact('item', 'departments'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Department $department)
+    public function update(Request $request, Item $item)
     {
         $input = $request->validate([
-           "name" => ["required", "min:5", "max:64", Rule::unique('departments')->ignore($department->id) ]
+           "name" => ["required", "max:128" ],
+           "department_id" => ["required", "exists:departments,id"]
         ]);
 
-        $department->update( $input );
+        $item->update( $input );
 
-        return Redirect::route('departments.index');
+        return Redirect::route('items.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Department $department)
+    public function destroy(Item $item)
     {
-
         return  Request()->expectsJson()
-            ? Response()->json(['success' => $department->delete()])
+            ? Response()->json(['success' => $item->delete()])
             : Redirect::route('items.index');
     }
 }

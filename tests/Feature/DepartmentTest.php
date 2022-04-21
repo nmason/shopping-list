@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Department;
+use App\Models\Item;
 use App\Models\User;
 use Inertia\Testing\Assert;
 use Inertia\Testing\AssertableInertia;
@@ -53,3 +54,16 @@ test('A department can be created and includes a user_id and slug', function () 
         'slug' => 'test-this-name'
     ] );
 });
+
+test('The department show page contains the associated items', function () {
+
+    $this->actingAs($user = User::factory()->create());
+
+    $department = Department::factory()->for($user)->create();
+    $items = Item::factory(10)->for($user)->for($department)->create();
+
+    $response = $this->getJson(route('departments.show', $department));
+    $this->assertEquals( 10, count(  $response->json("items") ) );
+
+});
+

@@ -12,7 +12,7 @@ class Department extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $guarded = ["user_id", "slug"];
+    protected $guarded = ["id", "user_id", "slug"];
 
     protected static function booting(){
 
@@ -39,5 +39,9 @@ class Department extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function items(){
+        return $this->hasMany( Item::class );
     }
 }
