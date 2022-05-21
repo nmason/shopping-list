@@ -131,32 +131,8 @@ Run the following commands in terminal
 14.  Has ability to select from available user departments
 15.  Ability to delete an item
 16.  Create a department show page that includes a list of items that relate to that department.
-17.  Include feature/unit test for:
-18.  Creating a item
-19.  Listing items for only the logged in user
-20.  Items are grouped by associated department
-21.  Department show page contains associated items
-22.  Ensure all tests pass, add any logic required to make test pass with desired outcome.
-23.  Commit and publish branch to GitHub with commit message ‘3. added items’
-![](https://lh5.googleusercontent.com/meA4Oxr4Em-No7KvbUP1MsOt191GpKjo19ZrHnvi_E0UVrEoFlUttYyahEnT3d3SGThBma-q37-E7UT8v7IUVe_t-ePXOdx68vGMidEED4JGw9cZMorabBhH5vhYseCeU9GUxtrqxfvhT6dPFw)
-24.  Create a new ‘ItemList’
-25.  Create a new git branch ‘4-item-list’ and checkout branch
-26.  Add Model, Migration and Resource Controller
-27.  Create a route resource with /list path
-28.  Add the following attributes that need to be stored in addition to the id, and timestamps:
-29.  ‘Quantity’
-30.  ‘Purchased’ (a boolean attribute)
-31.  Belongs to items
-32.  Create a index view listing each line item, sort and group by department in ascending order
-33.  Each department should have a subheading, followed by a list of line items that is within that department.
-34.  Line items display with the item name as the title, and display the quantity
-35.  Ensure items are scoped to only show line items for that user
-36.  The index page contains a input box displaying the quantity - this updates the quantity in real-time when the user leaves the input box only when the value is changed
-37.  The index page contains a add new box, which contains a select box with all the items sorted by department, it also contains a quantity box defaulting to 1. The form saves from the index and refreshes the page via javascript (does not refresh the browser page)
-38.  The quantity cannot go below 0 - include a vue computed method evaluates if a the quantity is below 0 with attached class and tailwind style.
-39.  Line items can be deleted.
-40.  Include the Feature / Unit tests you think are required
-41.  Commit and publish branch to GitHub with commit message ‘4. added item list’
+17.  Include feature/unit tests you think are required
+
 
 ## Step 4
 1.  Create a new ‘ItemList’
