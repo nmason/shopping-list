@@ -69,6 +69,7 @@ Run the following commands in terminal
 
 >  It's recommended you still read through step 1 & 2 so you understand what steps have been taken.
 
+>  **Note on Testing**: This sample code was initialised with Pest testing framework, this is based on PHP Unit and works in much the same way - you can run testing from the application root in terminal by running: './vendor/bin/pest' more documentation on https://pestphp.com/ .
   
 
 ## Step 1
